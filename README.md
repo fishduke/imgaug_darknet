@@ -8,11 +8,23 @@ darknet 플랫폼 자체에서 augmentation 기능을 지원해서 특별히 필
 
 imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참고하여 작성하였다.
 
+
+
+
+
+
+
+
+
 ![다운로드](https://github.com/fishduke/imgaug_darknet/assets/59356522/df4d8bdf-9162-4495-b59e-2899dbc31245)
 
 ### original image
 
 
-![다운로드 (1)](https://github.com/fishduke/imgaug_darknet/assets/59356522/8e313757-0ff1-4fbb-b130-d37c03fe3318)\
+
+
+
+
+![다운로드 (1)](https://github.com/fishduke/imgaug_darknet/assets/59356522/8e313757-0ff1-4fbb-b130-d37c03fe3318)
 
 ### augmented image
