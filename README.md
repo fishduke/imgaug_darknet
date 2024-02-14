@@ -7,3 +7,7 @@ darknet 플랫폼 자체에서 augmentation 기능을 지원해서 특별히 필
 아래 코드는 폴더 내 이미지를 검색하고, augmentation_count 설정에 따라 반복하여 이미지와 라벨 데이터를 증강시킨다.
 
 imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참고하여 작성하였다.
+
+https://imgur.com/V9Ahat9
+
+https://imgur.com/UpGDVwI
