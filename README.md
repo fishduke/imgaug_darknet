@@ -9,11 +9,13 @@ darknet 플랫폼 자체에서 augmentation 기능을 지원해서 특별히 필
 imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참고하여 작성하였다.
 
 
+<br/>
 
+<br/>
 
-\n
-\n
+<br/>
 
+<br/>
 
 
 ![다운로드](https://github.com/fishduke/imgaug_darknet/assets/59356522/df4d8bdf-9162-4495-b59e-2899dbc31245)
@@ -21,7 +23,9 @@ imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참�
 ### original image
 
 
+<br/>
 
+<br/>
 
 
 
