@@ -35,8 +35,14 @@ imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참�
 
 ### augmented image
 
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
+<br/>
 
-#입력값 설명
+# 입력값 설명
 
 --path : 이미지와 라벨링 데이터가 담겨 있는 폴더 경로
 --count : 이미지 증강을 반복할 횟수
