@@ -1,3 +1,10 @@
+# 세팅 방법 :
+conda env create -n "imgaug" python=3.8
+pip install imgaug
+pip install numpy==1.23
+
+
+# 소개 :
 https://prisonbreak.tistory.com/6#comment8704379
 
 imgaug 라는 좋은 라이브러리가 있어 이를 활용해 기존 데이터셋의 불균형을 해소하고자 한다
@@ -16,7 +23,7 @@ imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참�
 <br/>
 
 <br/>
-
+# 예시 이미지
 
 ![다운로드](https://github.com/fishduke/imgaug_darknet/assets/59356522/df4d8bdf-9162-4495-b59e-2899dbc31245)
 
