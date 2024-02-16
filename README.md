@@ -34,3 +34,16 @@ imgaug의 Documentation과 https://junyoung-jamong.github.io/ 님의 글을 참�
 ![다운로드 (1)](https://github.com/fishduke/imgaug_darknet/assets/59356522/8e313757-0ff1-4fbb-b130-d37c03fe3318)
 
 ### augmented image
+
+
+#입력값 설명
+
+--path : 이미지와 라벨링 데이터가 담겨 있는 폴더 경로
+--count : 이미지 증강을 반복할 횟수
+--mode : 테스트모드 또는 생성모드 선택
+
+사용법(ex) 증강 이미지 테스트
+python imgaug_darknet.py --path 'img_path/' --count 2 --mode 0
+
+사용법(ex) 증강 이미지 생성
+python imgaug_darknet.py --path 'img_path/' --count 2 --mode 1
