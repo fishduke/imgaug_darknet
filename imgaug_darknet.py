@@ -7,6 +7,8 @@ import os
 import glob
 import cv2
 import argparse
+import gc
+import psutil
 
 def parser():
     parser = argparse.ArgumentParser()
@@ -18,8 +20,8 @@ def parser():
                 help="test augmentation:0 / create augmented files:1")
     return parser.parse_args()
 
-def make_aug(image, count, labeling):
-    # Sometimes(0.5, ...) applies the given augmenter in 50% of all cases,
+def img_seq():
+        # Sometimes(0.5, ...) applies the given augmenter in 50% of all cases,
     # e.g. Sometimes(0.5, GaussianBlur(0.3)) would blur roughly every second image.
     sometimes = lambda aug: iaa.Sometimes(0.5, aug)
 
@@ -84,21 +86,13 @@ def make_aug(image, count, labeling):
                         )
                     ]),
                     iaa.OneOf([
-                       iaa.Clouds()
-                    ]),
-                    iaa.OneOf([
+                       iaa.Clouds(),
                        iaa.FastSnowyLandscape(
                             lightness_threshold=(100, 255),
                             lightness_multiplier=(1.0, 4.0)
-                        )
-                    ]),
-                    # iaa.OneOf([
-                    #    iaa.Fog()
-                    # ]),
-                    iaa.OneOf([
-                       iaa.Snowflakes(flake_size=(0.7, 0.95), speed=(0.001, 0.03))
-                    ]),
-                    iaa.OneOf([
+                        ),
+                       #iaa.Fog(),
+                       iaa.Snowflakes(flake_size=(0.7, 0.95), speed=(0.001, 0.03)),
                        iaa.Rain(drop_size=(0.10, 0.20))
                     ]),
                     iaa.ContrastNormalization((0.5, 2.0), per_channel=0.5), # improve or worsen the contrast
@@ -112,9 +106,15 @@ def make_aug(image, count, labeling):
         ],
         random_order=True
     )
+    return seq
 
+def make_aug(image, count, labeling):
+    seq = img_seq()
+    
     img = cv2.imread(image)
-
+    if(img.shape[1] > 2400 | img.shape[0] > 1200):   #if image size is huge, it will need huge ram space also, so limit it.
+        return 0
+        
     img_path = image
     txt_path = img_path[:img_path.find('.')] + '.txt'
     txt = open(txt_path, "r")
@@ -153,6 +153,7 @@ def make_aug(image, count, labeling):
     img_np = np.array(img)
     images_aug = seq.augment_image(img_np)
     bbs_aug = seq.augment_bounding_boxes([bounding_boxes])[0]
+    del img_np
     aug = images_aug.astype(np.uint8)
     new_path = image[:image.rfind('.')]+"_"+str(count)
     if(labeling):    
@@ -162,10 +163,10 @@ def make_aug(image, count, labeling):
             bb_box = bbs_aug.bounding_boxes[i]
 
             if(labeling): 
-                x1 = bb_box[0][0] /img.shape[1]
-                y1 = bb_box[0][1] /img.shape[0]
-                x2 = bb_box[1][0] /img.shape[1]
-                y2 = bb_box[1][1] /img.shape[0]
+                x1 = bb_box[0][0] / img.shape[1]
+                y1 = bb_box[0][1] / img.shape[0]
+                x2 = bb_box[1][0] / img.shape[1]
+                y2 = bb_box[1][1] / img.shape[0]
                 w = int(float(label[3]) * img.shape[1])
                 h = int(float(label[4][:len(label[4])-1]) * img.shape[0])
 
@@ -193,9 +194,14 @@ def make_aug(image, count, labeling):
     else:
         new_txt.close()
         cv2.imwrite(new_path+".jpg",aug)
-    seq = seq.clear()
     
-
+def memory_usage(message: str = 'debug'):
+    # current process RAM usage
+    p = psutil.Process()
+    rss = p.memory_info().rss / 2 ** 20 # Bytes to MB
+    memory_use = f"[{message}] memory usage: {rss: 10.5f} MB"
+    return memory_use
+    
 def main():
     args = parser()
     
@@ -210,14 +216,19 @@ def main():
 
     images = glob.glob(f'{path}/*.jpg') + glob.glob(f'{path}/*.png')
     print("original images size : ", len(images))
-
+    
+    p = psutil.Process()
+    p.memory_info()
+    
     num = 0
     for image in images:
         num += 1
         for count in range(augmentation_count):
-            make_aug(image, count, labeling)
-                                    
-        msg = "\rprocessed : %.0f%%" % (num/len(images)*100.0)
+            ret = make_aug(image, count, labeling)
+            if(ret==0):
+                print("image is too huge " + image)
+            gc.collect()
+        msg = "\rprocessed : %.0f%%" % (num/len(images)*100.0) + " / " + memory_usage(str(num))
         print(msg,end='')
         
     images = glob.glob(f'{path}/*.jpg') + glob.glob(f'{path}/*.png')
