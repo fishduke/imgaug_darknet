@@ -1,7 +1,7 @@
-# 세팅 방법 :
-conda env create -n "imgaug" python=3.8
-pip install imgaug
-pip install numpy==1.23
+# 세팅 방법 :<br/>
+conda env create -n "imgaug" python=3.8<br/>
+pip install imgaug<br/>
+pip install numpy==1.23<br/>
 
 
 # 소개 :
