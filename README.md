@@ -1,5 +1,5 @@
 # 빌드 :<br/>
-conda env create -n "imgaug" python=3.8<br/>
+conda create -n imgaug python=3.8<br/>
 pip install imgaug<br/>
 pip install numpy==1.23<br/>
 
