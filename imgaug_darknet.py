@@ -12,7 +12,7 @@ import psutil
 
 def parser():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--path', type=str, default='/dataset/Dataset_backup/Completion_dataset/basics_detector/5class/2024_02_06/person',
+    parser.add_argument('--path', type=str, default='/home/fishduke/Desktop/darknet/data/person',
                 help="Where is images directory? ex)home/user/imagefolder")
     parser.add_argument('--count', type=int, default=2,
                 help="how many will you augmentate? ex)2")
@@ -111,10 +111,7 @@ def img_seq():
 def make_aug(image, count, labeling):
     seq = img_seq()
     
-    img = cv2.imread(image)
-    if(img.shape[1] > 2400 | img.shape[0] > 1200):   #if image size is huge, it will need huge ram space also, so limit it.
-        return 0
-        
+    img = cv2.imread(image)        
     img_path = image
     txt_path = img_path[:img_path.find('.')] + '.txt'
     txt = open(txt_path, "r")
@@ -194,6 +191,7 @@ def make_aug(image, count, labeling):
     else:
         new_txt.close()
         cv2.imwrite(new_path+".jpg",aug)
+    seq.clear()
     
 def memory_usage(message: str = 'debug'):
     # current process RAM usage
@@ -224,9 +222,7 @@ def main():
     for image in images:
         num += 1
         for count in range(augmentation_count):
-            ret = make_aug(image, count, labeling)
-            if(ret==0):
-                print("image is too huge " + image)
+            make_aug(image, count, labeling)
             gc.collect()
         msg = "\rprocessed : %.0f%%" % (num/len(images)*100.0) + " / " + memory_usage(str(num))
         print(msg,end='')
