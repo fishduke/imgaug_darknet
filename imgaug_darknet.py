@@ -172,7 +172,7 @@ def make_aug(image, count, labeling):
                 x = x1+wid/2
                 y = y1+hei/2
                 
-                new_line = class_name[i] + " " + str(round(x,6)) + " " + str(round(y,6)) + " " + str(round(wid,6)) + " " + str(round(hei,6)) + "\n"
+                new_line = class_name[i] + " " + str(format(round(x,6), ".6f")) + " " + str(format(round(y,6),".6f")) + " " + str(format(round(wid,6),".6f")) + " " + str(format(round(hei,6),".6f")) + "\n"
                 new_txt.write(new_line)
                 
             else:
