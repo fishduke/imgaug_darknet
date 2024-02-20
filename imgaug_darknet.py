@@ -167,13 +167,16 @@ def make_aug(image, count, labeling):
                 w = int(float(label[3]) * img.shape[1])
                 h = int(float(label[4][:len(label[4])-1]) * img.shape[0])
 
-                wid = x2-x1
-                hei = y2-y1
-                x = x1+wid/2
-                y = y1+hei/2
+                wid = format(round(x2-x1,6),".6f")
+                hei = format(round(y2-y1,6),".6f")
+                x = format(round(x1+wid/2,6), ".6f")
+                y = format(round(y1+hei/2,6),".6f")
                 
-                new_line = class_name[i] + " " + str(format(round(x,6), ".6f")) + " " + str(format(round(y,6),".6f")) + " " + str(format(round(wid,6),".6f")) + " " + str(format(round(hei,6),".6f")) + "\n"
-                new_txt.write(new_line)
+                if(x<0 or y<0): #when augmentate image, some boxes can be lotate out of image, so delete it
+                    continue
+                else:
+                    new_line = class_name[i] + " " + str(x) + " " + str(y) + " " + str(wid) + " " + str(hei) + "\n"
+                    new_txt.write(new_line)
                 
             else:
                 x1 = int(bb_box[0][0])
